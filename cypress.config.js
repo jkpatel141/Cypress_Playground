@@ -8,5 +8,12 @@ module.exports = defineConfig({
     },
   },
   viewportWidth: 1280,
-  viewportHeight: 720
+  viewportHeight: 720,
+  reporter: 'mochawesome',
+  reporterOptions: {
+    reportDir: 'cypress/reports',
+    overwrite: false,
+    html: true,
+    json: true
+  }
 });
