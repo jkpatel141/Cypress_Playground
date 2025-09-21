@@ -1,0 +1,12 @@
+# Node modules
+node_modules/
+
+# Cypress output
+cypress/screenshots/
+cypress/videos/
+
+# Logs
+*.log
+
+# OS generated files
+desktop.ini
