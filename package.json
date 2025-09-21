@@ -2,11 +2,11 @@
   "name": "cypress_playground",
   "scripts": {
     "test": "cypress run",
-    "report:merge": "mochawesome-merge cypress/reports/*.json > cypress/reports/report.json",
-    "report:generate": "marge cypress/reports/report.json --reportDir cypress/reports --inline"
+    "report:pdf": "html-pdf cypress/reports/mochawesome.html cypress/reports/mochawesome.pdf"
   },
   "devDependencies": {
     "cypress": "^15.1.0",
+    "html-pdf-node": "^1.0.8",
     "mochawesome": "^7.1.4",
     "mochawesome-merge": "^5.0.0",
     "mochawesome-report-generator": "^6.3.0"
