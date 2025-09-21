@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js
+      # Step 2: Setup Node.js (use compatible version)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -27,13 +27,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run Cypress tests
-      - name: Run Cypress test
+      # Step 4: Verify Cypress binary
+      - name: Verify Cypress binary
+        run: npx cypress verify
+
+      # Step 5: Run Cypress tests
+      - name: Run Cypress tests
         run: npx cypress run
 
-      # Step 5: Upload Cypress test results (optional)
-      - name: Upload Cypress Report
+      # Step 6: Upload Cypress report (after tests)
+      - name: Upload Cypress report
+        if: always() # ensures report uploads even if tests fail
         uses: actions/upload-artifact@v4
         with:
-        name: cypress-report
-        path: cypress/reports
+          name: cypress-report
+          path: cypress/reports
