@@ -1,7 +1,7 @@
 {
   "name": "cypress_playground",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress run"
   },
   "devDependencies": {
     "cypress": "^15.1.0"
