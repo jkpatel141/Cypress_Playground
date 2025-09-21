@@ -28,7 +28,7 @@ jobs:
         run: npm install
 
       # Step 4: Run Cypress tests
-      - name: Run Cypress tests
+      - name: Run Cypress test
         run: npx cypress run
 
       # Step 5: Upload Cypress test results (optional)
