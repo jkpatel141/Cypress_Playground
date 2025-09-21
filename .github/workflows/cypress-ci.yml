@@ -35,6 +35,25 @@ jobs:
       - name: Run Cypress tests
         run: npx cypress run
 
+      - name: Send test report via email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Cypress Test Report - ${{ github.run_number }}"
+          to: jkpatel141@gmail.com
+          from: "Cypress CI <${{ secrets.EMAIL_USERNAME }}>"
+          attachments: cypress/reports/mochawesome.html
+          body: |
+            Hi Team,
+
+            Please find attached the latest Cypress test report.
+            
+            Regards,
+            CI/CD Pipeline
+
       # Step 6: Upload Cypress report (after tests)
       - name: Upload Cypress report
         if: always() # ensures report uploads even if tests fail
