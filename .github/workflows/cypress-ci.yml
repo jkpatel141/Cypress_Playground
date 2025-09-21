@@ -32,11 +32,8 @@ jobs:
         run: npx cypress run
 
       # Step 5: Upload Cypress test results (optional)
-      - name: Upload screenshots and videos
-        if: failure()
+      - name: Upload Cypress Report
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-artifacts
-          path: |
-            cypress/screenshots
-            cypress/videos
+        name: cypress-report
+        path: cypress/reports
