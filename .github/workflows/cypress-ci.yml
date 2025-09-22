@@ -56,7 +56,7 @@ jobs:
             The latest Cypress test run is complete.  
             You can view the detailed HTML report by clicking the link below:
 
-            [View Test Report](${{ steps.upload-report.outputs.report_url }})
+            https://github.com/jkpatel141/Cypress_Playground/actions/runs/${{ github.run_id }}
 
             Regards,  
             CI/CD Pipeline
