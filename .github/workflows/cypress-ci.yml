@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js (use compatible version)
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -27,18 +27,20 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Verify Cypress binary
-      - name: Verify Cypress binary
-        run: npx cypress verify
-
-      # Step 5: Run Cypress tests
+      # Step 4: Run Cypress tests
       - name: Run Cypress tests
-        run: npx cypress run
+        run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports,overwrite=false,html=false,json=true
 
-      - name: Generate PDF report
-        run: npm run report:pdf
+      # Step 5: Merge all reports into one JSON
+      - name: Merge Mochawesome JSON reports
+        run: npm run report:merge
 
-      - name: Send test report via email
+      # Step 6: Generate final HTML report
+      - name: Generate HTML report
+        run: npm run report:generate
+
+      # Step 7: Send test report link via email
+      - name: Send test report link via email
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -48,19 +50,21 @@ jobs:
           subject: "Cypress Test Report - ${{ github.run_number }}"
           to: jkpatel141@gmail.com
           from: "Cypress CI <${{ secrets.EMAIL_USERNAME }}>"
-          attachments: cypress/reports/mochawesome.pdf
           body: |
             Hi Team,
 
-            Please find attached the latest Cypress test report.
-            
-            Regards,
+            The latest Cypress test run is complete.  
+            You can view the detailed HTML report by clicking the link below:
+
+            [View Test Report](${{ steps.upload-report.outputs.report_url }})
+
+            Regards,  
             CI/CD Pipeline
 
-      # Step 6: Upload Cypress report (after tests)
-      - name: Upload Cypress report
-        if: always() # ensures report uploads even if tests fail
+      # Step 8: Upload Cypress report folder as artifact
+      - name: Upload Cypress HTML report
+        id: upload-report
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-report
+          name: cypress-html-report
           path: cypress/reports
