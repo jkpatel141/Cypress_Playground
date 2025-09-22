@@ -31,7 +31,7 @@ jobs:
       - name: Run Cypress tests
         run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports,overwrite=false,html=false,json=true
 
-      # Step 5: Merge all reports into one JSON
+      # Step 5: Merge all Mochawesome JSON reports
       - name: Merge Mochawesome JSON reports
         run: npm run report:merge
 
@@ -39,8 +39,8 @@ jobs:
       - name: Generate HTML report
         run: npm run report:generate
 
-      # Step 7: Send test report link via email
-      - name: Send test report link via email
+      # Step 7: Send Cypress HTML report via email (attachment)
+      - name: Send Cypress HTML report via email
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -54,12 +54,11 @@ jobs:
             Hi Team,
 
             The latest Cypress test run is complete.  
-            You can view the detailed HTML report by clicking the link below:
-
-            https://github.com/jkpatel141/Cypress_Playground/actions/runs/${{ github.run_id }}
+            Please find attached the detailed HTML report.
 
             Regards,  
             CI/CD Pipeline
+          attachments: cypress/reports/report.html
 
       # Step 8: Upload Cypress report folder as artifact
       - name: Upload Cypress HTML report
