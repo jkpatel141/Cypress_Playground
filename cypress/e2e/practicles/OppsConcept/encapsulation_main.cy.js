@@ -86,23 +86,5 @@ describe("Login Test", () => {
             cy.get('button.select-button')
                 .should('contain.text', expectedOption);
         })
-
-        // cy.get('nb-option').each(($option, index) => {
-
-        //     const actaulValue = $option.to.text().trim()
-
-        //     expect(actaulValue).to.eq(expectedOptions[index])
-
-        //     cy.wrap($option).click()
-
-        //     cy.get('button.select-button').should('contain.text', actaulValue)
-
-        //     if (index < expectedOptions.length - 1) {
-
-        //         cy.get('button.select-button').click({});
-
-        //     }
-
-        // })
     })
 })
