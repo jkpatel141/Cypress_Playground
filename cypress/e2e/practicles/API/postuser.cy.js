@@ -16,19 +16,68 @@ describe("POST examples", () => {
         })
     })
 
-    it.only("Create the record from the external file", () => {
-        it("Cheeck using the externam file", () => {
-            cy.fixture('credentials.json').then((data) => {
-                cy.log('Loaded Fixture Data:', JSON.stringify(data))
-                console.log('Fixture Data:', data)
-                const create = { name: data.name, email: data.email }
-                cy.request({
-                    method: 'POST',
-                    url: 'https://jsonplaceholder.typicode.com/users',
-                    body: create
-                }).then((response) => {
-                    cy.log('Response:', JSON.stringify(response.body))
-                    expect(response.status).to.eq(200)
+    it("Create the record from the external file", () => {
+        cy.fixture('credentials.json').then((data) => {
+            const create = { name: data.postmethod.name, email: data.postmethod.email }
+            cy.request({
+                method: 'POST',
+                url: 'https://jsonplaceholder.typicode.com/users',
+                body: create
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+                cy.log("Reposnce" + JSON.stringify(response.body))
+            })
+        })
+    })
+
+    it("Update the record", () => {
+
+        cy.request({
+            method: 'GET',
+            url: 'https://jsonplaceholder.typicode.com/users/10'
+        }).then((response) => {
+            expect(response.status).to.eq(200)
+            cy.log("Name" + JSON.stringify(response.body.name))
+        })
+
+        cy.fixture('credentials.json').then((data) => {
+            const create = { name: data.updateMethod.name, email: data.updateMethod.email }
+            cy.request({
+                method: 'PUT',
+                url: 'https://jsonplaceholder.typicode.com/users/10',
+                body: create
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+                cy.log("Reposnce" + JSON.stringify(response.body))
+            })
+        })
+    })
+
+    it("Update all records", () => {
+
+        cy.request({
+            method: 'GET',
+            url: 'https://jsonplaceholder.typicode.com/users'
+        }).then((response) => {
+            expect(response.status).to.eq(200)
+            response.body.forEach((string1, index) => {
+                cy.log(`User : ${index + 1} : ${string1.name}`)
+            })
+
+            const storeUser = response.body
+
+            storeUser.forEach(displayUser => {
+                cy.fixture('credentials.json').then((data) => {
+                    const create = { name: data.updateMethod.name, email: data.updateMethod.email }
+                    cy.request({
+                        method: 'PUT',
+                        url: `https://jsonplaceholder.typicode.com/users/${displayUser.id}`,
+                        body: create
+                    }).then((response) => {
+                        expect(response.status).to.eq(200)
+                        cy.log("Reposnce" + JSON.stringify(response.body))
+
+                    })
                 })
             })
         })
