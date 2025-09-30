@@ -82,4 +82,32 @@ describe("POST examples", () => {
             })
         })
     })
+
+    it("To verify the delete method", () => {
+        cy.request('GET','https://jsonplaceholder.typicode.com/users').then((data) => {
+            expect(data.status).to.eq(200)
+
+            const finalCount = data.body.length;
+
+            cy.log(`Total : ${finalCount}`)
+        })
+        cy.request({
+            method: 'DELETE',
+            url: 'https://jsonplaceholder.typicode.com/users/1',
+        }).then((response) => {
+            expect(response.status).to.eq(200)
+            // cy.log("Reposnce" + JSON.stringify(response.body))
+            const finalCount = response.body.length;
+            cy.log(`Total count fo this page are : ${finalCount}`);
+        })
+
+        cy.request('GET','https://jsonplaceholder.typicode.com/users').then((checl) => {
+            expect(checl.status).to.eq(200)
+
+            const finalCount1 = checl.body.length;
+
+            cy.log(`Total : ${finalCount1}`)
+        })
+
+    })
 })
