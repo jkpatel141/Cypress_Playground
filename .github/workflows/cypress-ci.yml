@@ -10,7 +10,7 @@ on:
 
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest uuuu
 
     steps:
       # Step 1: Checkout the repository
